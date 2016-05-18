@@ -69,10 +69,10 @@ BOOST_AUTO_TEST_CASE (one_triangle1)
 		"strictly two affordance types should exist.");
 
 	BOOST_CHECK_MESSAGE (h->affordances_[0].size() == 1, 
-		"strictly one support affordance should have been found.");
+		"strictly one support affordance should have been found. "<<h->affordances_[0].size()<<"found");
 
 	BOOST_CHECK_MESSAGE (h->affordances_[1].size() == 0, 
-		"no lean affordance should have been found at this point.");
+		"no lean affordance should have been found at this point. "<<h->affordances_[1].size()<<"found");
 
 }
 BOOST_AUTO_TEST_SUITE_END ()

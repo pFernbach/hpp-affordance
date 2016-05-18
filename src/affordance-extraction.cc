@@ -21,6 +21,7 @@
 #include <hpp/fcl/collision_object.h>
 #include <hpp/fcl/collision.h>
 #include <hpp/fcl/BVH/BVH_model.h>
+#include <hpp/util/debug.hh>
 #include <algorithm>
 
 
@@ -139,6 +140,13 @@ namespace hpp {
               std::remove (unsetTriangles.begin (), unsetTriangles.end (), triIdx);
               unsetTriangles.pop_back ();
             }
+        }
+      }
+      hppDout(notice,foundAffordances->affordances_.size()<<" types of affordances found :");
+      for (unsigned int affIdx = 0; affIdx < foundAffordances->affordances_.size (); affIdx ++) {
+        hppDout(notice,foundAffordances->affordances_[affIdx].size()<<" of type "<<opVec[affIdx]->affordance_<<" : ");
+        for (unsigned int idx = 0; idx < foundAffordances->affordances_[affIdx].size(); idx++){
+          hppDout(notice, "affordance "<<idx<<" have "<<foundAffordances->affordances_[affIdx][idx]->indices_.size()<< "triangles");
         }
       }
       return foundAffordances;
