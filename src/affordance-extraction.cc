@@ -96,13 +96,10 @@ namespace hpp {
       {
         TrianglePoints tri;
         fcl::Triangle fcltri = model->tri_indices [i];
-        tri.p1 = colObj->getRotation () *
-          model->vertices [fcltri [0]] + colObj->getTranslation ();
-        tri.p2 = colObj->getRotation () *
-          model->vertices [fcltri [1]] + colObj->getTranslation ();
-        tri.p3 = colObj->getRotation () *
-          model->vertices [fcltri [2]] + colObj->getTranslation ();
-
+        tri.p1 = colObj->getTransform().transform(model->vertices[fcltri [0]]);
+        tri.p2 = colObj->getTransform().transform(model->vertices[fcltri [1]]);
+        tri.p3 = colObj->getTransform().transform(model->vertices[fcltri [2]]);
+        
         triangles.push_back (Triangle (tri));
         // save vector index of triangles and their quantity.
 				unsetTriangles.push_back(i);
