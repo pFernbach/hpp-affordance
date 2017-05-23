@@ -16,6 +16,9 @@
 SET(LIBRARY_NAME ${PROJECT_NAME})
 ADD_LIBRARY(${LIBRARY_NAME}
   SHARED
+    ${PROJECT_SOURCE_DIR}/include/hpp/affordance/fwd.hh
+  ${PROJECT_SOURCE_DIR}/include/hpp/affordance/affordance-extraction.hh
+  ${PROJECT_SOURCE_DIR}/include/hpp/affordance/operations.hh
   affordance-extraction.cc
   )
 
