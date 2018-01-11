@@ -93,7 +93,7 @@ namespace hpp {
 				/// \param nromal Normal vector of the tested triangle.
         bool requirement (const fcl::Vec3f& normal) 
       {
-        return ((zWorld_ - normal).sqrLength() < margin_);
+        return ((zWorld_ - normal).squaredNorm() < margin_);
       }
     }; // class SupportOperation
     /// Class that contains the information needed to create affordance

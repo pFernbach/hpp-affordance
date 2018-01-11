@@ -57,11 +57,11 @@ namespace hpp {
           refPoints.push_back(refTri.points.p3);
         for (unsigned int vertIdx = 0; vertIdx < 3; vertIdx++) {
           const Triangle& searchTri = allTris [searchIdx];
-          if ((refPoints[vertIdx] - searchTri.points.p1).sqrLength () < margin
-              || (refPoints[vertIdx] - searchTri.points.p2).sqrLength () < margin
-              || (refPoints[vertIdx] - searchTri.points.p3).sqrLength () < margin) {
+          if ((refPoints[vertIdx] - searchTri.points.p1).squaredNorm () < margin
+              || (refPoints[vertIdx] - searchTri.points.p2).squaredNorm () < margin
+              || (refPoints[vertIdx] - searchTri.points.p3).squaredNorm () < margin) {
             if (refOp->requirement (searchTri.normal)) {
-              if ((searchTri.normal - refTri.normal).sqrLength () < refOp->neighbouringTriangleMargin_) {
+              if ((searchTri.normal - refTri.normal).squaredNorm () < refOp->neighbouringTriangleMargin_) {
                 area += searchTri.area;
                 listPotential.push_back (searchIdx);
                 searchLinkedTriangles (listPotential, refOp, allTris,

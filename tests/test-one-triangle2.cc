@@ -51,12 +51,11 @@ BOOST_AUTO_TEST_CASE (one_triangle2)
 	fcl::Triangle tri (0,1,2);
 	triangles.push_back (tri); 
 
-  fcl::Matrix3f R;
   fcl::Quaternion3f quat (1,0,0,0);
-	quat.toRotation(R);
+
   fcl::Vec3f T (0,0,0);
 
-  fcl::Transform3f pose (R, T);
+  fcl::Transform3f pose (quat, T);
 
 	model->beginModel ();
 	model->addSubModel (vertices, triangles);

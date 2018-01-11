@@ -20,7 +20,7 @@
 #include <hpp/affordance/operations.hh>
 #include <hpp/fcl/BVH/BVH_model.h>
 #include <hpp/fcl/shape/geometric_shape_to_BVH_model.h>
-
+#include <Eigen/Geometry>
 #define BOOST_TEST_MODULE test-oriented-triangles1
 #include <boost/test/included/unit_test.hpp>
 
@@ -51,19 +51,15 @@ BOOST_AUTO_TEST_CASE (oriented_triangles1)
 	int affFound = 0;
   int affNotFound = 0;
 	fcl::Vec3f T (0,0,0);
-	fcl::Vec3f axis (1,0,0);
-	fcl::Matrix3f R;
 
 	for (int i = 0; i < size_; ++i) {
 	  boost::shared_ptr<Model> model (new Model ());
 		fcl::Triangle tri (0,1,2);
 		triangles.push_back (tri); 
 	
-		fcl::Quaternion3f quat;
-		quat.fromAxisAngle(axis,3.1416*float(5*i)/180.0);
-		quat.toRotation(R);
+        fcl::Quaternion3f quat(Eigen::AngleAxis<fcl::FCL_REAL>(M_PI*float(5*i)/180.0,fcl::Vec3f::UnitX()));
 	
-	  fcl::Transform3f pose (R, T);
+      fcl::Transform3f pose (quat, T);
 	
 		model->beginModel ();
 		model->addSubModel (vertices, triangles);
@@ -80,7 +76,7 @@ BOOST_AUTO_TEST_CASE (oriented_triangles1)
 		}
 }
 	BOOST_CHECK_MESSAGE (affFound == 7 && affNotFound == 1, 
-		"Strictly six support affordances should have been found and one rejected. Now "<< affFound << 
+        "Strictly seven support affordances should have been found and one rejected. Now "<< affFound <<
 		"were found and "<< affNotFound << " rejected.");
 }
 BOOST_AUTO_TEST_SUITE_END ()
