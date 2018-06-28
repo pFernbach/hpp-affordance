@@ -173,6 +173,17 @@ namespace hpp {
     std::vector<CollisionObjects_t> getAffordanceObjects
                                              (const SemanticsDataPtr_t& sData);
 
+    /// Free function that, given a semanticsData pointer, creates one
+    /// fcl::collisionObject for every Affordance object.
+    /// The object are reduced of \param reduceSize : each vertice are moved toward the center of this value
+    ///
+    /// \param sData reference to all found Affordance objects.
+    /// NOTE : if there is changes in affordance.impl:: Afford::createOperations (), you should be carefull to the index of the affordance type.
+    /// The order of the values in reduceSizes correspond to the order of the affordance type in affordance.impl:: Afford::createOperations ()
+    /// FIXME : not working with plane that contain the z axis
+    std::vector<CollisionObjects_t> getReducedAffordanceObjects
+                                             (const SemanticsDataPtr_t& sData, std::vector<double> reduceSizes);
+
 		/// \}
   } // namespace affordance
 } // namespace hpp
