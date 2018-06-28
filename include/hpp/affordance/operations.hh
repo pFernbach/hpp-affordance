@@ -121,6 +121,40 @@ namespace hpp {
           return (fabs (normal.dot(zWorld_)) < margin_);
         }
     }; // class LeanOperation
+
+    /// Class that contains the information needed to create affordance
+        /// objects of type Lean. Inherits the OperationBase class.
+    class Support45Operation : public OperationBase
+    {
+      public:
+            /// Constructor that takes in user-defined parameters
+            /// \param margin Margin needed for the evaluation of the requirement function
+            /// \param nbTriMargin Margin between two triangles tested for a single
+      ///  affordance surface. If the angle between two triangles is greater
+      ///  than the provided margin, the triangles cannot be part of the same
+      ///  affordance surface.
+            /// \param minArea Minimum area needed for the formation of an affordance object
+            /// \param affordanceName The name of the affordance type
+      explicit Support45Operation (const double margin = 0.3, const double nbTriMargin = 0.3,
+                                                                const double minArea = 0.05,
+                                const char* affordanceName = "Support45"):
+                                OperationBase(margin, 0.05, minArea, affordanceName) {}
+       private:
+        const fcl::Vec3f axis45_ = fcl::Vec3f(1./sqrt(2.),0,1./sqrt(2.));
+
+                /// The implementation of the requirement function for Support45 affordances
+                /// overrides the virtual function in class OperationBase.
+                /// Test if the normal in oriented with 45° up +- margin
+                /// \param nromal Normal vector of the tested triangle.
+        bool requirement (const fcl::Vec3f& normal)
+        {
+          fcl::Vec3f projectedNormal(0,0,normal[2]); // project normal in x,z plan
+          projectedNormal[0] = sqrt(normal[0]*normal[0] + normal[1]*normal[1]);
+          return ((axis45_ - projectedNormal).sqrLength() < margin_);
+        }
+    }; // class LeanOperation
+
+
 		/// \} 
   } // namespace affordance
 } // namespace hpp

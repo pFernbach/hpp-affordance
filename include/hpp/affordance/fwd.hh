@@ -34,12 +34,14 @@ namespace hpp {
     class OperationBase;
     class SupportOperation;
     class LeanOperation;
+    class Support45Operation;
 
     typedef fcl::BVHModel<fcl::OBBRSS> BVHModelOB;
     typedef boost::shared_ptr<BVHModelOB> BVHModelOB_Ptr_t;
     typedef boost::shared_ptr<const BVHModelOB> BVHModelOBConst_Ptr_t;
     typedef boost::shared_ptr <SupportOperation> SupportOperationPtr_t;
     typedef boost::shared_ptr <LeanOperation> LeanOperationPtr_t;
+    typedef boost::shared_ptr <Support45Operation> Support45OperationPtr_t;
     typedef boost::shared_ptr <fcl::CollisionObject> CollisionObjectPtr_t;
     typedef std::vector<CollisionObjectPtr_t> CollisionObjects_t;
     typedef boost::shared_ptr <OperationBase> OperationBasePtr_t; 
