@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (one_triangle2)
 
   fcl::Matrix3f R;
   fcl::Quaternion3f quat (1,0,0,0);
-	quat.toRotation(R);
+  R = quat.matrix();
   fcl::Vec3f T (0,0,0);
 
   fcl::Transform3f pose (R, T);

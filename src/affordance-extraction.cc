@@ -57,11 +57,11 @@ namespace hpp {
           refPoints.push_back(refTri.points.p3);
         for (unsigned int vertIdx = 0; vertIdx < 3; vertIdx++) {
           const Triangle& searchTri = allTris [searchIdx];
-          if ((refPoints[vertIdx] - searchTri.points.p1).sqrLength () < margin
-              || (refPoints[vertIdx] - searchTri.points.p2).sqrLength () < margin
-              || (refPoints[vertIdx] - searchTri.points.p3).sqrLength () < margin) {
+          if ((refPoints[vertIdx] - searchTri.points.p1).squaredNorm () < margin
+              || (refPoints[vertIdx] - searchTri.points.p2).squaredNorm () < margin
+              || (refPoints[vertIdx] - searchTri.points.p3).squaredNorm () < margin) {
             if (refOp->requirement (searchTri.normal)) {
-              if ((searchTri.normal - refTri.normal).sqrLength () < refOp->neighbouringTriangleMargin_) {
+              if ((searchTri.normal - refTri.normal).squaredNorm () < refOp->neighbouringTriangleMargin_) {
                 area += searchTri.area;
                 listPotential.push_back (searchIdx);
                 searchLinkedTriangles (listPotential, refOp, allTris,
@@ -259,7 +259,7 @@ namespace hpp {
                 if((id_lastPoint == id_pointOnHull) || (isLeft(points[id_pointOnHull], points[id_lastPoint],points[id_current]) > 0)
                         || ((id_current!=id_pointOnHull) && (id_current!= id_lastPoint) &&
                             (isLeft(points[id_pointOnHull], points[id_lastPoint],points[id_current]) == 0 )
-                            && ((points[id_pointOnHull]-points[id_current]).sqrLength() < (points[id_pointOnHull]-points[id_lastPoint]).sqrLength()))){ // if on the same line, take the closest one from ptsOnHull
+                            && ((points[id_pointOnHull]-points[id_current]).squaredNorm() < (points[id_pointOnHull]-points[id_lastPoint]).squaredNorm()))){ // if on the same line, take the closest one from ptsOnHull
                     if( ( std::find(res.begin(),res.end(),id_current) == res.end() ) || ((res.size()>0) && (id_current == res[0])))// only selected it if not on the list (or the first)
                         id_lastPoint = id_current;
                 }
@@ -350,9 +350,9 @@ namespace hpp {
                         else
                             next=vertices[orderedIndex[id+1]];
 
-                        A=(next-vertices[orderedIndex[id]]).normalize();
-                        B=(prev-vertices[orderedIndex[id]]).normalize();
-                        dir=(A+B).normalize();
+                        A=(next-vertices[orderedIndex[id]]).normalized();
+                        B=(prev-vertices[orderedIndex[id]]).normalized();
+                        dir=(A+B).normalized();
                      /*   if(dir.length() < std::numeric_limits<double>::epsilon()){ // this mean that prev, current and next are aligned, we make a 90° angle
                             dir=
                         }*/

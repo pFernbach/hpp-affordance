@@ -58,10 +58,8 @@ BOOST_AUTO_TEST_CASE (oriented_triangles1)
 	  boost::shared_ptr<Model> model (new Model ());
 		fcl::Triangle tri (0,1,2);
 		triangles.push_back (tri); 
-	
-		fcl::Quaternion3f quat;
-		quat.fromAxisAngle(axis,3.1416*float(5*i)/180.0);
-		quat.toRotation(R);
+
+        R =  Eigen::AngleAxisd(3.1416*double(5*i)/180.0, axis);
 	
 	  fcl::Transform3f pose (R, T);
 	

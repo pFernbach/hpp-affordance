@@ -93,7 +93,7 @@ namespace hpp {
 				/// \param nromal Normal vector of the tested triangle.
         bool requirement (const fcl::Vec3f& normal) 
       {
-        return ((zWorld_ - normal).sqrLength() < margin_);
+        return ((zWorld_ - normal).squaredNorm() < margin_);
       }
     }; // class SupportOperation
     /// Class that contains the information needed to create affordance
@@ -138,9 +138,10 @@ namespace hpp {
       explicit Support45Operation (const double margin = 0.3, const double nbTriMargin = 0.3,
                                                                 const double minArea = 0.05,
                                 const char* affordanceName = "Support45"):
-                                OperationBase(margin, 0.05, minArea, affordanceName) {}
+                                OperationBase(margin, 0.05, minArea, affordanceName)
+                                , axis45_ (fcl::Vec3f(1./sqrt(2.),0,1./sqrt(2.))) {}
        private:
-        const fcl::Vec3f axis45_ = fcl::Vec3f(1./sqrt(2.),0,1./sqrt(2.));
+        const fcl::Vec3f axis45_;
 
                 /// The implementation of the requirement function for Support45 affordances
                 /// overrides the virtual function in class OperationBase.
@@ -150,7 +151,7 @@ namespace hpp {
         {
           fcl::Vec3f projectedNormal(0,0,normal[2]); // project normal in x,z plan
           projectedNormal[0] = sqrt(normal[0]*normal[0] + normal[1]*normal[1]);
-          return ((axis45_ - projectedNormal).sqrLength() < margin_);
+          return ((axis45_ - projectedNormal).squaredNorm() < margin_);
         }
     }; // class LeanOperation
 
