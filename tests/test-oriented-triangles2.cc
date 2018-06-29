@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (oriented_triangles2)
 		model->addSubModel (vertices, triangles);
 		model->endModel ();
 	
-	  boost::shared_ptr <fcl::CollisionObject> obj (new fcl::CollisionObject(model, pose));
+      fcl::CollisionObject* obj (new fcl::CollisionObject(model, pose));
 	
 	  hpp::affordance::SemanticsDataPtr_t h = hpp::affordance::affordanceAnalysis (obj, operations);
 

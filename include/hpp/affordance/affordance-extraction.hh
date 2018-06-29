@@ -70,7 +70,7 @@ namespace hpp {
     };
 
 		// helper function to extract mesh model of an fcl::collisionObstacle
-    BVHModelOBConst_Ptr_t GetModel (const fcl::CollisionObjectConstPtr_t& object);
+    BVHModelOBConst_Ptr_t GetModel (FclConstCollisionObjectPtr_t object);
 
     /// \addtogroup affordance
     /// \{
@@ -91,14 +91,14 @@ namespace hpp {
 			/// \param colObj reference to pointer to fcl::collisionObject
 			///        containing the found affordance objects.
       Affordance (const std::vector<unsigned int>& idxVec,
-                  const fcl::CollisionObjectPtr_t& colObj):
+                  FclConstCollisionObjectPtr_t colObj):
                   indices_(idxVec), colObj_(colObj) {}
 			/// Triangle indices that correspond to the triangles of the reference
 			/// collisionObstacle, and form the affordance object.
       std::vector<unsigned int> indices_;
 			/// Reference to the collisionObstacle the surfaces of which are used to
 			/// create the affordance object.
-      fcl::CollisionObjectPtr_t colObj_;
+      FclConstCollisionObjectPtr_t colObj_;
     };
 		///	Class containing a vector of vectors of Affordance objects.
 		/// The length of the outer vector corresponds to the amount of different
@@ -163,7 +163,7 @@ namespace hpp {
 		/// \param opVec vector of operation objects that determine which requirements
 		///				 are set for which affordance type. The length of this vector
 		///				 corresponds to the amount of different affordance types considered.
-    SemanticsDataPtr_t affordanceAnalysis (const fcl::CollisionObjectPtr_t& colObj,
+    SemanticsDataPtr_t affordanceAnalysis (FclConstCollisionObjectPtr_t colObj,
                                            const OperationBases_t & opVec);
 
 		/// Free function that, given a semanticsData pointer, creates one

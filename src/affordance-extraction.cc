@@ -27,7 +27,7 @@
 namespace hpp {
   namespace affordance {
 
-    BVHModelOBConst_Ptr_t GetModel (const fcl::CollisionObjectConstPtr_t& object)
+    BVHModelOBConst_Ptr_t GetModel (FclConstCollisionObjectPtr_t object)
     {
         assert (object->collisionGeometry ()->getNodeType () == fcl::BV_OBBRSS);
         const BVHModelOBConst_Ptr_t model = boost::static_pointer_cast<const BVHModelOB>
@@ -78,7 +78,7 @@ namespace hpp {
       }
     }
 
-    SemanticsDataPtr_t affordanceAnalysis (const fcl::CollisionObjectPtr_t& colObj,
+    SemanticsDataPtr_t affordanceAnalysis (FclConstCollisionObjectPtr_t colObj,
                                            const OperationBases_t& opVec)
     {
       BVHModelOBConst_Ptr_t model =  GetModel (colObj);

@@ -49,6 +49,9 @@ namespace hpp {
     typedef boost::shared_ptr <SemanticsData> SemanticsDataPtr_t;
     typedef boost::shared_ptr <Affordance> AffordancePtr_t;
     typedef boost::shared_ptr <AffordanceExtraction> AffordanceExtractionPtr_t;
+    typedef       fcl::CollisionObject   FclCollisionObject;
+    typedef       fcl::CollisionObject * FclCollisionObjectPtr_t;
+    typedef const fcl::CollisionObject * FclConstCollisionObjectPtr_t;
   } // namespace affordance
 } // namespace hpp
 
