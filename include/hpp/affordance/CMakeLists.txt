@@ -3,3 +3,8 @@ SET(${PROJECT_NAME}_HEADERS
   affordance-extraction.hh
   operations.hh
  )
+
+INSTALL(FILES
+  ${${PROJECT_NAME}_HEADERS}
+  DESTINATION include/hpp/affordance
+  )
