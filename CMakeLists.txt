@@ -23,45 +23,27 @@ SET(CXX_DISABLE_WERROR TRUE)
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
-#INCLUDE(cmake/cpack.cmake)
+INCLUDE(cmake/test.cmake)
+INCLUDE(cmake/hpp.cmake)
 
+SET(PROJECT_ORG humanoid-path-planner)
 SET(PROJECT_NAME hpp-affordance)
 SET(PROJECT_DESCRIPTION
   "Implementation to Extract Whole-Body Affordances for Mutli-Contact Planning."
   )
-SET(PROJECT_URL "")
-
-# Where to compile shared objects
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+SET(PROJECT_URL "https://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
 
 SETUP_PROJECT()
 
-# Activate hpp-util logging if requested
-SET (HPP_DEBUG FALSE CACHE BOOL "trigger hpp-affordance debug output")
-IF (HPP_DEBUG)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHPP_DEBUG")
-ENDIF()
-
-# Declare headers
-SET(${PROJECT_NAME}_HEADERS
-  include/hpp/affordance/fwd.hh
-  include/hpp/affordance/affordance-extraction.hh
-  include/hpp/affordance/operations.hh
- )
-
-# Declare dependencies
 SEARCH_FOR_BOOST()
 
 ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.2")
 ADD_REQUIRED_DEPENDENCY("hpp-fcl >= 0.2.9")
 
-## Add dependency toward hpp-affordance library in pkg-config file.
-PKG_CONFIG_APPEND_LIBS("hpp-affordance")
-
+ADD_SUBDIRECTORY(include/hpp/affordance)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
 
 CONFIG_FILES (include/hpp/affordance/doc.hh)
 
 SETUP_PROJECT_FINALIZE()
-#SETUP_PROJECT_CPACK()
