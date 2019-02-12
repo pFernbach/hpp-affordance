@@ -22,6 +22,7 @@
 #define BOOST_TEST_MODULE test-operations
 #include <boost/test/included/unit_test.hpp>
 
+using namespace hpp;
 const double epsilon = 10e-6;
 
 bool compDouble(const double a, const double b)
