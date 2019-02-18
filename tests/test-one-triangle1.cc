@@ -26,6 +26,7 @@
 
 BOOST_AUTO_TEST_SUITE (test_affordance)
 
+using namespace hpp;
 BOOST_AUTO_TEST_CASE (one_triangle1)
 {
 	hpp::affordance::SupportOperationPtr_t support (new hpp::affordance::SupportOperation());

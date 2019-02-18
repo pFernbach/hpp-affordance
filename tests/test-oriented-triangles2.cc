@@ -24,6 +24,7 @@
 #define BOOST_TEST_MODULE test-oriented-triangles2
 #include <boost/test/included/unit_test.hpp>
 
+using namespace hpp;
 BOOST_AUTO_TEST_SUITE (test_affordance)
 
 BOOST_AUTO_TEST_CASE (oriented_triangles2)
