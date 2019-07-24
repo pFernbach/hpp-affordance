@@ -178,10 +178,17 @@ namespace hpp {
         return acc / points.size();
     }
 
-    std::vector<fcl::Vec3f> translatePoints(const std::vector<fcl::Vec3f>& points, const double reduceSize)
+
+    /**
+     * @brief translatePoints Move all the vertice of'reduceSize' toward the centroid of the surface
+     * @param points
+     * @param reduceSize
+     * @return
+     */
+ /*   std::vector<fcl::Vec3f> translatePoints(const std::vector<fcl::Vec3f>& points, const double reduceSize)
     {
         fcl::Vec3f centroid = computeCentroid(points);
-        fcl::Vec3f dir;
+        fcl::Vec3f dir,prev,next,A,B,;
         std::vector<fcl::Vec3f> res;
         for(CIT_Point cit = points.begin(); cit != points.end(); ++cit)
         {
@@ -190,6 +197,115 @@ namespace hpp {
         }
         return res;
     }
+*/
+
+
+
+    /// isLeft(): tests if a point is Left|On|Right of an infinite line.
+    /// \param lA 1st point of the line
+    /// \param lB 2nd point of the line
+    /// \param p2 point to test
+    /// \return: >0 for p2 left of the line through p0 and p1
+    ///          =0 for p2 on the line
+    ///          <0 for p2 right of the line
+    /// See: the January 2001 Algorithm "Area of 2D and 3D Triangles and Polygons"
+    double isLeft(fcl::Vec3f lA, fcl::Vec3f lB, fcl::Vec3f p2)
+    {
+      return (lB[0] - lA[0]) * (p2[1] - lA[1]) - (p2[0] - lA[0]) * (lB[1] - lA[1]);
+    }
+
+    inline bool isTop(fcl::Vec3f A,fcl::Vec3f B){
+      return A[1]>B[1];
+    }
+
+
+
+    // return the index of the left most points of points
+    size_t leftTopMost(std::vector<fcl::Vec3f> points)
+    {
+      size_t res=0;
+      for(size_t id=1;id<points.size();++id)
+      {
+        if(points[id][0] < points[res][0]){
+          res=id;
+        }
+        else if (points[id][0] == points[res][0]){ // take the top most
+          if(points[id][1] > points[res][1]){
+            res=id;
+          }
+        }
+      }
+      return res;
+    }
+
+
+    // return a vector containing the order of the index of points, such that the vertices are in clockwise order
+    std::vector<size_t> convexHull(const std::vector<fcl::Vec3f> points)
+    {
+
+      std::vector<size_t> res;
+      size_t id_pointOnHull = leftTopMost(points);
+      size_t id_lastPoint = 0;
+      // std::cout<<"leftTopMost : "<<points[id_pointOnHull]<<" id = "<<id_pointOnHull<<std::endl;
+      do {
+        id_lastPoint = 0;
+        //std::cout<<"On Hull : "<<points[id_pointOnHull]<<" id = "<<id_pointOnHull<<std::endl;
+        // std::cout<<"last point : "<<points[id_lastPoint]<<" id = "<<id_lastPoint<<std::endl;
+        for(size_t id_current = 1 ; id_current < points.size();++id_current)
+        {
+          if((id_lastPoint == id_pointOnHull) || (isLeft(points[id_pointOnHull], points[id_lastPoint],points[id_current]) > 0)
+             || ((id_current!=id_pointOnHull) && (id_current!= id_lastPoint) &&
+                 (isLeft(points[id_pointOnHull], points[id_lastPoint],points[id_current]) == 0 )
+                 && ((points[id_pointOnHull]-points[id_current]).squaredNorm() < (points[id_pointOnHull]-points[id_lastPoint]).squaredNorm()))){ // if on the same line, take the closest one from ptsOnHull
+            if( ( std::find(res.begin(),res.end(),id_current) == res.end() ) || ((res.size()>0) && (id_current == res[0])))// only selected it if not on the list (or the first)
+              id_lastPoint = id_current;
+          }
+        }
+
+        //std::cout<<"new last point : "<<points[id_lastPoint]<<" id = "<<id_lastPoint<<std::endl;
+        res.push_back(id_pointOnHull);
+        id_pointOnHull = id_lastPoint;
+      } while(id_lastPoint != res[0]);
+      //res.insert(res.end(), lastPoint);
+      // std::cout<<"points size = "<<points.size()<<" orderedlist size = "<<res.size()<<std::endl;
+      if(points.size() != res.size()){
+        std::ostringstream oss("Error while sorting vertices of affordances");
+        throw std::runtime_error (oss.str ());
+      }
+      return res;
+    }
+
+
+    /**
+     * @brief translatePoints For all the vertices, move of reduceSize in the direction of the two adjacent edges
+     * @param points
+     * @param reduceSize
+     * @return
+     */
+    std::vector<fcl::Vec3f> translatePoints(const std::vector<fcl::Vec3f>& points, const double reduceSize)
+    {
+      std::vector<fcl::Vec3f> shiftedVertices(points.size());
+      fcl::Vec3f prev,next,shift;
+      std::vector<size_t> orderedIndex = convexHull(points); // this vector contain the index of 'vertices' vertice in a counter-clockwise order.
+      for(unsigned int id=0;id<orderedIndex.size();++id){
+        if(id==0)
+          prev=points[orderedIndex[orderedIndex.size()-1]];
+        else
+          prev=points[orderedIndex[id-1]];
+        if(id==(orderedIndex.size()-1))
+          next=points[orderedIndex[0]];
+        else
+          next=points[orderedIndex[id+1]];
+
+        shift = reduceSize*((next-points[orderedIndex[id]]).normalized());
+        shift += reduceSize*((prev-points[orderedIndex[id]]).normalized());
+
+        fcl::Vec3f shiftedVertice = points[orderedIndex[id]] + shift;
+        shiftedVertices[orderedIndex[id]] = shiftedVertice;
+      }
+      return shiftedVertices;
+    }
+
 
     void createAffordanceModel(hpp::affordance::AffordancePtr_t affPtr,
                                                           const std::vector<fcl::Vec3f>& vertices,
