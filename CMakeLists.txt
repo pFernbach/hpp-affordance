@@ -45,5 +45,6 @@ ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
 
 CONFIG_FILES (include/hpp/affordance/doc.hh)
+PKG_CONFIG_APPEND_LIBS("hpp-affordance")
 
 SETUP_PROJECT_FINALIZE()
