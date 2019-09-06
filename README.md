@@ -45,7 +45,7 @@ To install HPP - AFFORDANCE, you will need to install one other package of the H
 
   3. Clone the HPP - AFFORDANCE repository onto your local computer and update the submodule:
 
-			git clone --recursive https://github.com/anna-seppala/hpp-affordance.git
+			git clone --recursive https://github.com/humanoid-path-planner/hpp-affordance.git
 			cd hpp-affordance
 
   4. Use CMake to install the HPP - AFFORDANCE library. For instance:
