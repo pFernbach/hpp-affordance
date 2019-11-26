@@ -17,23 +17,20 @@
 # hpp-model  If not, see
 # <http://www.gnu.org/licenses/>.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+SET(PROJECT_NAME hpp-affordance)
+SET(PROJECT_DESCRIPTION "Implementation to Extract Whole-Body Affordances for Mutli-Contact Planning.")
 
 SET(CXX_DISABLE_WERROR TRUE)
-INCLUDE(cmake/base.cmake)
+
+INCLUDE(cmake/hpp.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
 INCLUDE(cmake/test.cmake)
-INCLUDE(cmake/hpp.cmake)
 
-SET(PROJECT_ORG humanoid-path-planner)
-SET(PROJECT_NAME hpp-affordance)
-SET(PROJECT_DESCRIPTION
-  "Implementation to Extract Whole-Body Affordances for Mutli-Contact Planning."
-  )
-SET(PROJECT_URL "https://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
-
-SETUP_PROJECT()
+COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
+PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 
 SEARCH_FOR_BOOST()
 
@@ -46,5 +43,3 @@ ADD_SUBDIRECTORY(tests)
 
 CONFIG_FILES (include/hpp/affordance/doc.hh)
 PKG_CONFIG_APPEND_LIBS("hpp-affordance")
-
-SETUP_PROJECT_FINALIZE()
