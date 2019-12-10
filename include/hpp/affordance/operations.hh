@@ -19,7 +19,7 @@
 #ifndef HPP_AFFORDANCE_OPERATIONS_HH
 #define HPP_AFFORDANCE_OPERATIONS_HH
 
-# include <hpp/fcl/math/vec_3f.h>
+# include <hpp/fcl/data_types.h>
 
 namespace hpp {
   namespace affordance {
