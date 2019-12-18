@@ -24,7 +24,7 @@
 #include <boost/smart_ptr.hpp>
 #include <hpp/fcl/fwd.hh>
 #include <hpp/fcl/BVH/BVH_model.h>
-#include <hpp/fcl/math/vec_3f.h>
+#include <hpp/fcl/data_types.h>
 
 namespace hpp {
   namespace affordance {
